@@ -1,5 +1,8 @@
 # Materialize + PrivateLink + MSK
 
+> **Warning**
+> This is provided on a best-effort basis and Materialize cannot offer support for this module
+
 This repository contains a Terraform module that configures a PrivateLink endpoint for an existing Amazon MSK cluster to connect to Materialize.
 
 The module creates the following resources:
