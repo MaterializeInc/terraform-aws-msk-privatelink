@@ -10,9 +10,9 @@ The module creates the following resources:
 
 ## Important Remarks
 
-- Define the same AWS region for the MSK cluster and the PrivateLink endpoint in the provider configuration.
 - The MSK cluster must be in the same VPC as the PrivateLink endpoint.
 - Review this module with your Cloud Security team to ensure that it meets your security requirements.
+- Finally, after the Terraform module has been applied, you will need to make sure that the Target Groups heatlth checks are passing. As the NLB does not have security groups, you will need to make sure that the NLB is able to reach the MSK brokers by allowing the subnet CIDR blocks in the security groups of the MSK cluster.
 
 ## Usage
 
@@ -29,8 +29,6 @@ cp terraform.tfvars.example terraform.tfvars
 | mz_msk_cluster_name | The name of the MSK cluster | string | `'my-msk-cluster'` | yes |
 | mz_msk_cluster_port | The port of the MSK cluster | string | `'9092'` | yes |
 | mz_msk_vpc_id | The VPC ID of the MSK cluster | string | `'vpc-1234567890abcdef0'` | yes |
-| mz_msk_subnet_ids | The subnet IDs of the MSK cluster | list | `["subnet-1234567890abc", "subnet-cba0987654321"]` | yes |
-| mz_msk_az_ids | The availability zone IDs of the MSK cluster | list | `["use1-az1", "use1-az2"]` | yes |
 
 ### Apply the Terraform Module
 

@@ -32,13 +32,3 @@ variable "mz_msk_cluster_port" {
 variable "mz_msk_vpc_id" {
   description = "The VPC ID of the existing MSK cluster"
 }
-
-# Subnet IDs of the existing MSK cluster
-variable "mz_msk_subnet_ids" {
-  description = "Subnet IDs of the existing MSK cluster"
-}
-
-# The Availability Zones of the existing MSK cluster
-variable "mz_msk_az_ids" {
-  description = "The availability zones of the existing MSK cluster"
-}

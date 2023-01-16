@@ -9,7 +9,3 @@ mz_msk_cluster_name =
 mz_msk_cluster_port =
 # The VPC ID of the existing MSK cluster
 mz_msk_vpc_id =
-# Subnet IDs of the existing MSK cluster
-mz_msk_subnet_ids =
-# The Availability Zones of the existing MSK cluster
-mz_msk_az_ids =
