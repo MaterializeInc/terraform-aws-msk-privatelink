@@ -1,0 +1,15 @@
+# Provider environment variables
+aws_region = "us-east-1"
+aws_profile = "default"
+aws_config_file = ["~/.aws/config"]
+
+# The name of the existing MSK cluster
+mz_msk_cluster_name =
+# Port: 9092, or the port that you are using in case it is not 9092 (e.g. 9094 for TLS or 9096 for SASL).
+mz_msk_cluster_port =
+# The VPC ID of the existing MSK cluster
+mz_msk_vpc_id =
+# Subnet IDs of the existing MSK cluster
+mz_msk_subnet_ids =
+# The Availability Zones of the existing MSK cluster
+mz_msk_az_ids =

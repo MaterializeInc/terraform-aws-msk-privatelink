@@ -1,0 +1,127 @@
+# Materialize + PrivateLink + MSK
+
+This repository contains a Terraform module that configures a PrivateLink endpoint for an existing Amazon MSK cluster.
+
+The module creates the following resources:
+- Target group for each MSK Broker
+- Network Load Balancer for the MSK cluster
+- TCP listener for the NLB to forward traffic to each target group
+- A VPC endpoint service for your MSK cluster
+
+## Important Remarks
+
+- Define the same AWS region for the MSK cluster and the PrivateLink endpoint in the provider configuration.
+- The MSK cluster must be in the same VPC as the PrivateLink endpoint.
+- Review this module with your Cloud Security team to ensure that it meets your security requirements.
+
+## Usage
+
+### Variables
+
+Start by copying the `terraform.tfvars.example` file to `terraform.tfvars` and filling in the variables:
+
+```
+cp terraform.tfvars.example terraform.tfvars
+```
+
+| Name | Description | Type | Example | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| mz_msk_cluster_name | The name of the MSK cluster | string | `'my-msk-cluster'` | yes |
+| mz_msk_cluster_port | The port of the MSK cluster | string | `'9092'` | yes |
+| mz_msk_vpc_id | The VPC ID of the MSK cluster | string | `'vpc-1234567890abcdef0'` | yes |
+| mz_msk_subnet_ids | The subnet IDs of the MSK cluster | list | `["subnet-1234567890abc", "subnet-cba0987654321"]` | yes |
+| mz_msk_az_ids | The availability zone IDs of the MSK cluster | list | `["use1-az1", "use1-az2"]` | yes |
+
+### Apply the Terraform Module
+
+```
+terraform apply
+```
+
+### Output
+
+After the Terraform module has been applied, you will see the following output.
+
+You can follow the instructions in the output to configure the PrivateLink endpoint and the MSK connection in Materialize:
+
+```sql
+  - mz_msk_endpoint_sql             = <<-EOT
+            -- Create the private link endpoint in Materialize
+            CREATE CONNECTION privatelink_svc TO AWS PRIVATELINK (
+                SERVICE NAME 'com.amazonaws.vpce.us-east-1.vpce-svc-1234567890abcdef0',
+                AVAILABILITY ZONES ("use1-az1", "use1-az2")
+            );
+
+            -- Get the allowed principals for the VPC endpoint service
+            SELECT principal
+            FROM mz_aws_privatelink_connections plc
+            JOIN mz_connections c ON plc.id = c.id
+            WHERE c.name = 'privatelink_svc';
+
+            -- IMPORTANT: Get the allowed principals, then add them to the VPC endpoint service
+
+            -- Create the connection to the MSK cluster
+            CREATE CONNECTION kafka_connection TO KAFKA (
+                BROKERS (
+                'b-1.your_msk_cluster_broker_url.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (PORT 9001),
+        'b-2.your_msk_cluster_broker_url.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (PORT 9002)
+                ),
+                -- Authentication details
+                -- Depending on the authentication method the MSK cluster is using
+                SASL MECHANISMS = 'SCRAM-SHA-512',
+                USERNAME = 'foo',
+                PASSWORD = SECRET bar
+            );
+    EOT
+```
+
+### Output details: Configure Materialize
+
+Once the Terraform module has been applied, you can configure Materialize to connect to the MSK cluster using the PrivateLink endpoint:
+
+- Connect to the Materialize instance using `psql`
+- Run the SQL statement from the output of the `terraform apply` command to configure the PrivateLink connection, example:
+
+```sql
+CREATE CONNECTION privatelink_svc TO AWS PRIVATELINK (
+        SERVICE NAME 'com.amazonaws.vpce.us-east-1.vpce-svc-1234567890abcdef0',
+        AVAILABILITY ZONES ("use1-az1", "use1-az2")
+    );
+```
+
+- Get the allowed principals for the VPC endpoint service
+
+```sql
+SELECT principal
+    FROM mz_aws_privatelink_connections plc
+    JOIN mz_connections c ON plc.id = c.id
+    WHERE c.name = 'privatelink_svc';
+```
+
+- Add the allowed principals to the Endpoint Service configuration in the AWS console
+
+- Finally, run the last SQL statement from the output of the `terraform apply` command to create the MSK connection which will use the PrivateLink endpoint, example:
+
+```sql
+    -- Create the connection to the MSK cluster
+    CREATE CONNECTION kafka_connection TO KAFKA (
+        BROKERS (
+            'b-1.your_broker_details.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (PORT 9001),
+            'b-2.your_broker_details.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (PORT 9002)
+        ),
+        -- Authentication details
+        -- Depending on the authentication method the MSK cluster is using
+        SASL MECHANISMS = 'SCRAM-SHA-512',
+        USERNAME = 'foo',
+        PASSWORD = SECRET bar
+    );
+```s
+
+After that go to your AWS console and check that the VPC endpoint service has a pending connection request from the Materialize instance which you can approve.
+
+After the connection request has been approved, you can create a Kafka source in Materialize using the `kafka_connection` connection.
+
+## Materialize Documentation
+
+You can also follow the [Materialize documentation](https://materialize.com/docs/ops/network-security/privatelink/) for more information.
+
