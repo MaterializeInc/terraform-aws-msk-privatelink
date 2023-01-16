@@ -1,6 +1,6 @@
 # Materialize + PrivateLink + MSK
 
-This repository contains a Terraform module that configures a PrivateLink endpoint for an existing Amazon MSK cluster.
+This repository contains a Terraform module that configures a PrivateLink endpoint for an existing Amazon MSK cluster to connect to Materialize.
 
 The module creates the following resources:
 - Target group for each MSK Broker
@@ -115,7 +115,7 @@ SELECT principal
         USERNAME = 'foo',
         PASSWORD = SECRET bar
     );
-```s
+```
 
 After that go to your AWS console and check that the VPC endpoint service has a pending connection request from the Materialize instance which you can approve.
 
