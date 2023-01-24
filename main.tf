@@ -1,11 +1,12 @@
 # For each MSK broker, create a target group
 resource "aws_lb_target_group" "mz_msk_target_group" {
-  count       = length(data.aws_msk_broker_nodes.mz_msk_broker_nodes.node_info_list)
-  name        = "mz-msk-target-group-${count.index}"
-  port        = var.mz_msk_cluster_port
-  protocol    = "TCP"
-  vpc_id      = data.aws_vpc.mz_msk_vpc.id
-  target_type = "ip"
+  count                            = length(data.aws_msk_broker_nodes.mz_msk_broker_nodes.node_info_list)
+  name                             = "mz-msk-target-group-${count.index}"
+  port                             = var.mz_msk_cluster_port
+  protocol                         = "TCP"
+  vpc_id                           = data.aws_vpc.mz_msk_vpc.id
+  enable_cross_zone_load_balancing = true
+  target_type                      = "ip"
 }
 
 # For each MSK broker, attach a target to the target group
