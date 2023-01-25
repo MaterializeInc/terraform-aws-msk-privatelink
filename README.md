@@ -64,8 +64,8 @@ You can follow the instructions in the output to configure the PrivateLink endpo
             -- Create the connection to the MSK cluster
             CREATE CONNECTION kafka_connection TO KAFKA (
                 BROKERS (
-                'b-1.your_msk_cluster_broker_url.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (PORT 9001),
-        'b-2.your_msk_cluster_broker_url.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (PORT 9002)
+                'b-1.your_msk_cluster_broker_url.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (AVAILABILITY ZONE 'use1-az1', PORT 9001),
+        'b-2.your_msk_cluster_broker_url.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (AVAILABILITY ZONE 'use1-az2', PORT 9002)
                 ),
                 -- Authentication details
                 -- Depending on the authentication method the MSK cluster is using
@@ -107,8 +107,8 @@ SELECT principal
     -- Create the connection to the MSK cluster
     CREATE CONNECTION kafka_connection TO KAFKA (
         BROKERS (
-            'b-1.your_broker_details.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (PORT 9001),
-            'b-2.your_broker_details.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (PORT 9002)
+            'b-1.your_broker_details.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (AVAILABILITY ZONE 'use1-az1', PORT 9001),
+            'b-2.your_broker_details.amazonaws.com:9092' USING AWS PRIVATELINK privatelink_svc (AVAILABILITY ZONE 'use1-az2', PORT 9002)
         ),
         -- Authentication details
         -- Depending on the authentication method the MSK cluster is using
