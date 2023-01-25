@@ -18,7 +18,7 @@ output "mz_msk_endpoint_sql" {
     -- Create the connection to the MSK cluster
     CREATE CONNECTION kafka_connection TO KAFKA (
         BROKERS (
-        ${join(",\n", [for broker in data.aws_msk_broker_nodes.mz_msk_broker_nodes.node_info_list : "'${one(broker.endpoints)}:${var.mz_msk_cluster_port}' USING AWS PRIVATELINK privatelink_svc (PORT ${9000 + broker.broker_id})"])}
+        ${join(",\n", [for broker in data.aws_msk_broker_nodes.mz_msk_broker_nodes.node_info_list : "'${one(broker.endpoints)}:${var.mz_msk_cluster_port}' USING AWS PRIVATELINK privatelink_svc (AVAILABILITY ZONE '${data.aws_subnet.mz_msk_subnet[broker.client_subnet].availability_zone_id}', PORT ${9000 + broker.broker_id})"])}
         ),
         -- Authentication details
         -- Depending on the authentication method the MSK cluster is using
