@@ -11,6 +11,9 @@ The module creates the following resources:
 - TCP listener for the NLB to forward traffic to each target group
 - A VPC endpoint service for your MSK cluster
 
+> **Note**
+> If you have a self-managed Kafka cluster, you can use the [terraform-aws-kafka-privatelink](https://github.com/MaterializeInc/terraform-aws-kafka-privatelink) module instead.
+
 ## Important Remarks
 
 - The MSK cluster must be in the same VPC as the PrivateLink endpoint.
