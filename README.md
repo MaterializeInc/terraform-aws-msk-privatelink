@@ -12,7 +12,7 @@ The module creates the following resources:
 - A VPC endpoint service for your MSK cluster
 
 > **Note**
-> If you have a self-managed Kafka cluster, you can use the [terraform-aws-kafka-privatelink](https://github.com/MaterializeInc/terraform-aws-kafka-privatelink) module instead.
+> If you have a self-managed Kafka cluster, use the [`terraform-aws-kafka-privatelink`](https://github.com/MaterializeInc/terraform-aws-kafka-privatelink) module instead.
 
 ## Important Remarks
 
