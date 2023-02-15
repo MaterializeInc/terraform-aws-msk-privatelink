@@ -1,7 +1,5 @@
 # Provider environment variables
 aws_region = "us-east-1"
-aws_profile = "default"
-aws_config_file = ["~/.aws/config"]
 
 # The name of the existing MSK cluster
 mz_msk_cluster_name =

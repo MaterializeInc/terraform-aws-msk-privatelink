@@ -5,17 +5,6 @@ variable "aws_region" {
   default     = "us-west-1"
 }
 
-variable "aws_profile" {
-  description = "AWS profile"
-  type        = string
-  default     = "default"
-}
-variable "aws_config_file" {
-  description = "AWS config file"
-  type        = list(any)
-  default     = ["~/.aws/config"]
-}
-
 # List of variables that the user would need to change
 
 # The name of the existing MSK cluster
