@@ -20,6 +20,13 @@ The module creates the following resources:
 - Review this module with your Cloud Security team to ensure that it meets your security requirements.
 - Finally, after the Terraform module has been applied, you will need to make sure that the Target Groups heatlth checks are passing. As the NLB does not have security groups, you will need to make sure that the NLB is able to reach the MSK brokers by allowing the subnet CIDR blocks in the security groups of the MSK cluster.
 
+To override the default AWS provider variables, you can export the following environment variables:
+
+```bash
+export AWS_PROFILE=<your_aws_profile> # eg. default
+export AWS_CONFIG_FILE=<your_aws_config_file> # eg. ["~/.aws/config"]
+```
+
 ## Usage
 
 ### Variables
