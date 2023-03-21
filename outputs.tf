@@ -22,9 +22,12 @@ output "mz_msk_endpoint_sql" {
         ),
         -- Authentication details
         -- Depending on the authentication method the MSK cluster is using
-        SASL MECHANISMS = 'SCRAM-SHA-512',
-        SASL USERNAME = 'foo',
-        SASL PASSWORD = SECRET bar
+        ${var.mz_msk_cluster_port == "9096" ? "SASL MECHANISMS = 'SCRAM-SHA-512'," : ""}
+        ${var.mz_msk_cluster_port == "9096" ? "SASL USERNAME = 'foo'," : ""}
+        ${var.mz_msk_cluster_port == "9096" ? "SASL SASL PASSWORD = SECRET bar" : ""}
+        ${var.mz_msk_cluster_port == "9094" ? "SSL KEY = SECRET kafka_ssl_key," : ""}
+        ${var.mz_msk_cluster_port == "9094" ? "SSL CERTIFICATE = SECRET kafka_ssl_crt," : ""}
+        ${var.mz_msk_cluster_port == "9094" ? "SSL CERTIFICATE AUTHORITY = SECRET kafka_ssl_ca" : ""}
     );
     EOF
 }
