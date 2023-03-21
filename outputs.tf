@@ -23,8 +23,8 @@ output "mz_msk_endpoint_sql" {
         -- Authentication details
         -- Depending on the authentication method the MSK cluster is using
         SASL MECHANISMS = 'SCRAM-SHA-512',
-        USERNAME = 'foo',
-        PASSWORD = SECRET bar
+        SASL USERNAME = 'foo',
+        SASL PASSWORD = SECRET bar
     );
     EOF
 }
