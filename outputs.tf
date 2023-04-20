@@ -31,3 +31,11 @@ output "mz_msk_endpoint_sql" {
     );
     EOF
 }
+
+output "mz_msk_endpoint_service_name" {
+  value = aws_vpc_endpoint_service.mz_msk_lb_endpoint_service.service_name
+}
+
+output "mz_msk_azs" {
+  value = [for s in data.aws_subnet.mz_msk_subnet : s.availability_zone_id]
+}
