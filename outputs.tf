@@ -32,14 +32,12 @@ output "mz_msk_endpoint_sql" {
     EOF
 }
 
-output "mz_msk_endpoint_service_name" {
-  value = aws_vpc_endpoint_service.mz_msk_lb_endpoint_service.service_name
+# Return the aws_vpc_endpoint_service resource for the MSK endpoint service including the service name and ID
+output "mz_msk_endpoint_service" {
+    value = aws_vpc_endpoint_service.mz_msk_lb_endpoint_service
 }
 
-output "mz_msk_endpoint_service_id" {
-  value = aws_vpc_endpoint_service.mz_msk_lb_endpoint_service.id
-}
-
+# Return the list of subnet IDs for the MSK cluster
 output "mz_msk_azs" {
   value = [for s in data.aws_subnet.mz_msk_subnet : s.availability_zone_id]
 }
