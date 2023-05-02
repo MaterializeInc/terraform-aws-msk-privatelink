@@ -41,7 +41,7 @@ resource "aws_lb_listener" "mz_msk_listener" {
 
 # Create VPC endpoint service for the Load Balancer
 resource "aws_vpc_endpoint_service" "mz_msk_lb_endpoint_service" {
-  acceptance_required        = true
+  acceptance_required        = var.mz_acceptance_required
   network_load_balancer_arns = [aws_lb.mz_msk_lb.arn]
   tags = {
     Name = "mz-msk-lb-endpoint-service"
