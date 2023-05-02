@@ -21,3 +21,10 @@ variable "mz_msk_cluster_port" {
 variable "mz_msk_vpc_id" {
   description = "The VPC ID of the existing MSK cluster"
 }
+
+# Endpoint Service Acceptance Required (true/false)
+variable "mz_acceptance_required" {
+  description = "Endpoint Service Manual Acceptance Required (true/false)"
+  default     = false
+  type        = bool
+}
