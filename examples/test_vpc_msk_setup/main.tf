@@ -8,7 +8,7 @@ resource "aws_vpc" "test_vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = "MSK + PrivateLink Test VPC"
+    Name = "msk_pl_test_vpc"
   }
 }
 
@@ -20,13 +20,13 @@ resource "aws_subnet" "test_subnet" {
   availability_zone       = element(var.availability_zones, count.index)
   map_public_ip_on_launch = true
   tags = {
-    Name = "TestSubnet-${count.index}"
+    Name = "testsubnet-${count.index}"
   }
 }
 
 # MSK Cluster setup
 resource "aws_msk_cluster" "test_msk_cluster" {
-  cluster_name      = "privatelink-test-msk-cluster"
+  cluster_name      = "pl-test-msk-cluster"
   kafka_version     = "3.4.0"
   number_of_broker_nodes = 2
 
@@ -49,8 +49,8 @@ resource "aws_msk_cluster" "test_msk_cluster" {
 
 # Security group for MSK
 resource "aws_security_group" "msk_sg" {
-  name        = "msk-sg"
-  description = "Security group for MSK cluster"
+  name        = "msk-sg-test"
+  description = "Security group for MSK cluster test"
   vpc_id      = aws_vpc.test_vpc.id
 
   # Allow all outbound
@@ -69,6 +69,6 @@ resource "aws_security_group" "msk_sg" {
   }
 
   tags = {
-    Name = "msk-security-group"
+    Name = "msk-security-group-test"
   }
 }

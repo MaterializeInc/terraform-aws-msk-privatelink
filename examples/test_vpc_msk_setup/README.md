@@ -58,7 +58,24 @@ Follow these steps to deploy the example infrastructure:
 
 6. **Test the MSK + PrivateLink Module**
 
-   After the VPC and the MSK cluster are created, you can use the Materialize + PrivateLink module to create a PrivateLink endpoint for the MSK cluster. Follow the instructions in the module's [README](../../README.md).
+   After the VPC and the MSK cluster are created, you can use the Materialize + PrivateLink module to create a PrivateLink endpoint for the MSK cluster. Follow the instructions in the module's [README](../../README.md):
+
+    ```hcl
+    # Invoke your module here
+    module "materialize_privatelink_msk" {
+        source = "../../"
+
+        aws_region          = var.aws_region
+        mz_msk_cluster_name = aws_msk_cluster.test_msk_cluster.cluster_name
+        mz_msk_cluster_port = "9092"
+        mz_msk_vpc_id       = aws_vpc.test_vpc.id
+    }
+
+    # Output mz_msk_endpoint_sql
+    output "mz_msk_endpoint_sql" {
+        value = module.materialize_privatelink_msk.mz_msk_endpoint_sql
+    }
+    ```
 
 ## Cleanup
 
