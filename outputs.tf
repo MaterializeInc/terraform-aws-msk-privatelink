@@ -34,7 +34,7 @@ output "mz_msk_endpoint_sql" {
 
 # Return the aws_vpc_endpoint_service resource for the MSK endpoint service including the service name and ID
 output "mz_msk_endpoint_service" {
-    value = aws_vpc_endpoint_service.mz_msk_lb_endpoint_service
+  value = aws_vpc_endpoint_service.mz_msk_lb_endpoint_service
 }
 
 # Return the list of subnet IDs for the MSK cluster
