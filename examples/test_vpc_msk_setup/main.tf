@@ -18,7 +18,7 @@ resource "aws_subnet" "test_subnet" {
   vpc_id                  = aws_vpc.test_vpc.id
   cidr_block              = var.subnet_cidrs[count.index]
   availability_zone       = element(var.availability_zones, count.index)
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
   tags = {
     Name = "testsubnet-${count.index}"
   }
@@ -26,8 +26,8 @@ resource "aws_subnet" "test_subnet" {
 
 # MSK Cluster setup
 resource "aws_msk_cluster" "test_msk_cluster" {
-  cluster_name      = "pl-test-msk-cluster"
-  kafka_version     = "3.4.0"
+  cluster_name           = "pl-test-msk-cluster"
+  kafka_version          = "3.4.0"
   number_of_broker_nodes = 2
 
   broker_node_group_info {
