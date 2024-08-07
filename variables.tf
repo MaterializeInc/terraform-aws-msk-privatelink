@@ -12,7 +12,7 @@ variable "mz_msk_cluster_name" {
   description = "The name of the existing MSK cluster"
 }
 
-# Port: 9092, or the port that you are using in case it is not 9092 (e.g. 9094 for TLS or 9096 for SASL).
+# Port: 9092, or the port that you are using in case it is not 9092 (e.g. 9094 for TLS or 9096 for SASL or 9098 for IAM)
 variable "mz_msk_cluster_port" {
   description = "The port of the existing MSK cluster"
 }

@@ -28,6 +28,8 @@ output "mz_msk_endpoint_sql" {
         ${var.mz_msk_cluster_port == "9094" ? "SSL KEY = SECRET kafka_ssl_key," : ""}
         ${var.mz_msk_cluster_port == "9094" ? "SSL CERTIFICATE = SECRET kafka_ssl_crt," : ""}
         ${var.mz_msk_cluster_port == "9094" ? "SSL CERTIFICATE AUTHORITY = SECRET kafka_ssl_ca" : ""}
+        ${var.mz_msk_cluster_port == "9098" ? "SECURITY PROTOCOL = 'SASL_SSL'," : ""}
+        ${var.mz_msk_cluster_port == "9098" ? "AWS CONNECTION = aws_connection'" : ""}
     );
     EOF
 }
