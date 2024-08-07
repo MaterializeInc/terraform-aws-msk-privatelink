@@ -18,6 +18,14 @@ The module creates the following resources:
 
 - The MSK cluster must be in the same VPC as the PrivateLink endpoint.
 - Review this module with your Cloud Security team to ensure that it meets your security requirements.
+- Make sure to use the correct port for your MSK cluster based on your authentication method:
+  - `9092`: Plain text, unauthenticated
+  - `9094`: TLS encrypted, unauthenticated
+  - `9096`: TLS encrypted, SASL/SCRAM authenticated
+  - `9098`: TLS encrypted, IAM authenticated
+
+  Ensure that you specify the correct port in both the `mz_msk_cluster_port` variable and in the `CREATE CONNECTION` statement for Materialize.
+
 - Finally, after the Terraform module has been applied, you will need to make sure that the Target Groups heatlth checks are passing. As the NLB does not have security groups, you will need to make sure that the NLB is able to reach the MSK brokers by allowing the subnet CIDR blocks in the security groups of the MSK cluster.
 
 To override the default AWS provider variables, you can export the following environment variables:
@@ -111,7 +119,7 @@ SELECT principal
 
 - Add the allowed principals to the Endpoint Service configuration in the AWS console
 
-- Finally, run the last SQL statement from the output of the `terraform apply` command to create the MSK connection which will use the PrivateLink endpoint, example:
+- Finally, run the last SQL statement from the output of the `terraform apply` command to create the MSK connection which will use the PrivateLink endpoint. Make sure to use the correct port based on your authentication method (`9092`, `9094`, `9096`, or `9098`):
 
 ```sql
     -- Create the connection to the MSK cluster
@@ -135,4 +143,3 @@ After the connection request has been approved, you can create a Kafka source in
 ## Materialize Documentation
 
 You can also follow the [Materialize documentation](https://materialize.com/docs/ops/network-security/privatelink/) for more information.
-

@@ -22,6 +22,7 @@ output "mz_msk_endpoint_sql" {
         ),
         -- Authentication details
         -- Depending on the authentication method the MSK cluster is using
+        ${var.mz_msk_cluster_port == "9092" ? "SECURITY PROTOCOL = 'PLAINTEXT'," : ""}
         ${var.mz_msk_cluster_port == "9096" ? "SASL MECHANISMS = 'SCRAM-SHA-512'," : ""}
         ${var.mz_msk_cluster_port == "9096" ? "SASL USERNAME = 'foo'," : ""}
         ${var.mz_msk_cluster_port == "9096" ? "SASL SASL PASSWORD = SECRET bar" : ""}
