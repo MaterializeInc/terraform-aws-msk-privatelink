@@ -25,5 +25,5 @@ variable "availability_zones" {
 variable "msk_instance_type" {
   description = "Instance type for MSK brokers"
   type        = string
-  default     = "kafka.m5.large"
+  default     = "kafka.t3.small"
 }

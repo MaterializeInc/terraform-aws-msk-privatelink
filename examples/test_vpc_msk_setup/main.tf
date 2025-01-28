@@ -31,7 +31,7 @@ resource "aws_msk_cluster" "test_msk_cluster" {
   number_of_broker_nodes = 2
 
   broker_node_group_info {
-    instance_type   = "kafka.t3.small"
+    instance_type   = var.msk_instance_type
     client_subnets  = aws_subnet.test_subnet[*].id
     security_groups = [aws_security_group.msk_sg.id]
   }

@@ -1,25 +1,21 @@
-# AWS Details
-variable "aws_region" {
-  description = "AWS region"
-  type        = string
-  default     = "us-west-1"
-}
-
 # List of variables that the user would need to change
 
 # The name of the existing MSK cluster
 variable "mz_msk_cluster_name" {
   description = "The name of the existing MSK cluster"
+  type        = string
 }
 
 # Port: 9092, or the port that you are using in case it is not 9092 (e.g. 9094 for TLS or 9096 for SASL or 9098 for IAM)
 variable "mz_msk_cluster_port" {
   description = "The port of the existing MSK cluster"
+  type        = string
 }
 
 # The VPC ID of the existing MSK cluster
 variable "mz_msk_vpc_id" {
   description = "The VPC ID of the existing MSK cluster"
+  type        = string
 }
 
 # Endpoint Service Acceptance Required (true/false)
