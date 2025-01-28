@@ -7,3 +7,7 @@ mz_msk_cluster_name =
 mz_msk_cluster_port =
 # The VPC ID of the existing MSK cluster
 mz_msk_vpc_id =
+
+# For cross-region access, add the regions to the list
+# This will be the regions where your Materialize instance is deployed
+mz_supported_regions = []

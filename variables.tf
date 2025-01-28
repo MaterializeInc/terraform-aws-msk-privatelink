@@ -28,3 +28,12 @@ variable "mz_acceptance_required" {
   default     = false
   type        = bool
 }
+
+# Empty list means only same-region access is allowed
+# For cross-region access, add the regions to the list
+# This will be the regions where your Materialize instance is deployed
+variable "mz_supported_regions" {
+  description = "The set of regions from which service consumers can access the service"
+  type        = list(string)
+  default     = []
+}

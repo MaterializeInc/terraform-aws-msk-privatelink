@@ -28,6 +28,10 @@ The module creates the following resources:
 
 - Finally, after the Terraform module has been applied, you will need to make sure that the Target Groups heatlth checks are passing. As the NLB does not have security groups, you will need to make sure that the NLB is able to reach the MSK brokers by allowing the subnet CIDR blocks in the security groups of the MSK cluster.
 
+- Cross-region connections:
+    To connect to an AWS PrivateLink endpoint service in a different region to the one where your Materialize environment is deployed, you need to set the `mz_supported_regions` variable to include the region where the Materialize instance is deployed.
+    For same-region connections, you can leave the `mz_supported_regions` variable empty.
+
 To override the default AWS provider variables, you can export the following environment variables:
 
 ```bash
@@ -45,11 +49,12 @@ Start by copying the `terraform.tfvars.example` file to `terraform.tfvars` and f
 cp terraform.tfvars.example terraform.tfvars
 ```
 
-| Name | Description | Type | Example | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| mz_msk_cluster_name | The name of the MSK cluster | string | `'my-msk-cluster'` | yes |
-| mz_msk_cluster_port | The port of the MSK cluster | string | `'9092'` | yes |
-| mz_msk_vpc_id | The VPC ID of the MSK cluster | string | `'vpc-1234567890abcdef0'` | yes |
+| Name                   | Description                   | Type   | Example                   | Required |
+|------------------------|-------------------------------|:------:|:-------------------------:|:--------:|
+| `mz_msk_cluster_name`  | The name of the MSK cluster   | string | `'my-msk-cluster'`        | yes |
+| `mz_msk_cluster_port`  | The port of the MSK cluster   | string | `'9092'`                  | yes |
+| `mz_msk_vpc_id`        | The VPC ID of the MSK cluster | string | `'vpc-1234567890abcdef0'` | yes |
+| `mz_supported_regions` | Only required for cross-region connections. The regions where the Materialize instance is deployed | list | `["us-east-1"]` | no |
 
 ### Apply the Terraform Module
 
