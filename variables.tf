@@ -25,11 +25,11 @@ variable "mz_acceptance_required" {
   type        = bool
 }
 
-# Empty list means only same-region access is allowed
-# For cross-region access, add the regions to the list
-# This will be the regions where your Materialize instance is deployed
+# For cross-region access, add the regions to the list where you want to connect to your MSK cluster from.
+# For example, the region where your Materialize environment is deployed.
+# Empty list means only same-region access is allowed.
 variable "mz_supported_regions" {
-  description = "The set of regions from which service consumers can access the service"
+  description = "The set of regions that will be allowed to create a privatelink connection to the MSK cluster."
   type        = list(string)
   default     = []
 }
