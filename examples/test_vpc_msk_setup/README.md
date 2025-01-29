@@ -65,7 +65,6 @@ Follow these steps to deploy the example infrastructure:
     module "materialize_privatelink_msk" {
         source = "../../"
 
-        aws_region          = var.aws_region
         mz_msk_cluster_name = aws_msk_cluster.test_msk_cluster.cluster_name
         mz_msk_cluster_port = "9092"
         mz_msk_vpc_id       = aws_vpc.test_vpc.id
